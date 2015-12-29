@@ -8,7 +8,7 @@ Description: Simple URLs is a complete URL management system that allows you cre
 Author: Nathan Rice
 Author URI: http://www.nathanrice.net/
 
-Version: 0.9.6
+Version: 0.9.7
 
 Text Domain: simple-urls
 Domain Path: /languages
@@ -45,6 +45,8 @@ class SimpleURLs {
 	function register_post_type() {
 
 		$slug = 'surl';
+		
+		$rewrite_slug_default = 'go';
 
 		$labels = array(
 			'name'               => __( 'Simple URLs', 'simple-urls' ),
@@ -77,16 +79,24 @@ class SimpleURLs {
 
 		$labels = apply_filters( 'simple_urls_cpt_labels', $labels );
 
-		$rewrite_slug = apply_filters( 'simple_urls_slug', 'go' );
-
+		$rewrite_slug = apply_filters( 'simple_urls_slug', $rewrite_slug_default );
+		
+		$rewrite_slug = sanitize_title( $rewrite_slug, $rewrite_slug_default );
+		
+		// Ref: https://developer.wordpress.org/reference/functions/add_post_type_support/
+		$supports_array = apply_filters( 'simple_urls_post_type_supports', array( 'title' ) );
+    
+    // Ref: https://developer.wordpress.org/reference/functions/register_post_type/
 		register_post_type( $slug,
 			array(
-				'labels'        => $labels,
-				'public'        => true,
-				'query_var'     => true,
-				'menu_position' => 20,
-				'supports'      => array( 'title' ),
-				'rewrite'       => array( 'slug' => $rewrite_slug, 'with_front' => false ),
+				'labels'              => $labels,
+				'public'              => false,
+				'exclude_from_search' => apply_filters( 'simple_urls_exclude_from_search', true ),
+				'show_ui'             => true,
+				'query_var'           => true,
+				'menu_position'       => 20,
+				'supports'            => $supports_array,
+				'rewrite'             => array( 'slug' => $rewrite_slug, 'with_front' => false ),
 			)
 		);
 
