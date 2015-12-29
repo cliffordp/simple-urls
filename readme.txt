@@ -3,8 +3,8 @@ Contributors: nathanrice, studiopress
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5553118
 Tags: redirect, click tracking, custom post types
 Requires at least: 3.0
-Tested up to: 3.5
-Stable tag: 0.9.6
+Tested up to: 4.4
+Stable tag: 0.9.7
 
 Simple URLs is a complete URL management system that allows you create, manage, and track outbound links from your site.
 
@@ -36,7 +36,11 @@ Navigate to `Settings > Permalinks` and save them. No need to change anything, j
 
 = Can I change the URL structure to use something other than /go/ ??? =
 
-No, not without modifying the plugin.
+You can utilize the `simple_urls_slug` filter to customize it. For example: https://gist.github.com/cliffordp/f5cdb9b5f44628d8082f
+
+= Can I add a "Notes" area to each Simple URL? =
+
+You might want to use the `simple_urls_post_type_supports` filter to enable post type support for not only 'title' but also 'excerpt' or 'editor'. For example: https://gist.github.com/cliffordp/ccb448a74ad0057f11ab
 
 == Screenshots ==
 
@@ -44,6 +48,14 @@ No, not without modifying the plugin.
 2. The URL create/edit screen
 
 == Changelog ==
+
+= 0.9.7 =
+* Simple URLs will no longer appear in search results by default (filterable, since some users indicated they do want the links able to appear in site's search results)
+* Simple URLs post type will no longer display Yoast SEO metabox (since post type 'public' is now 'false')
+* Added 'simple_urls_post_type_supports' filter so you can override post type's 'supports' argument. For example, to enable 'excerpts' to use for internal notes.
+* Added data sanitization to custom slug (via 'simple_urls_slug' filter).
+* Updated Readme
+* This update brought to you by https://profiles.wordpress.org/cliffpaulick
 
 = 0.9.6 =
 * Add plugin header i18n
